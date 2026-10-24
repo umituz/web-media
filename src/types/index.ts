@@ -13,6 +13,7 @@ export interface MediaPlayerProps {
   autoPlay?: boolean
   initialPosition?: number
   onPositionChange?: (positionSec: number, durationSec: number) => void
+  onTimeUpdate?: (positionSec: number) => void
   onPlayStateChange?: (playing: boolean) => void
   onRateChange?: (rate: number) => void
   onEnded?: () => void

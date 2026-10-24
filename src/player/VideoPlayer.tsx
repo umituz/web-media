@@ -27,6 +27,7 @@ export function VideoPlayer({
   autoPlay,
   initialPosition,
   onPositionChange,
+  onTimeUpdate,
   onPlayStateChange,
   onRateChange,
   onEnded,
@@ -34,7 +35,7 @@ export function VideoPlayer({
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [internalSubtitle, setInternalSubtitle] = useState<SubtitleTrack>('korean')
   const [fullscreen, setFullscreen] = useState(false)
-  const player = useMediaElement<HTMLVideoElement>({ src, autoPlay, initialPosition, onPositionChange, onPlayStateChange, onRateChange, onEnded })
+  const player = useMediaElement<HTMLVideoElement>({ src, autoPlay, initialPosition, onPositionChange, onTimeUpdate, onPlayStateChange, onRateChange, onEnded })
 
   const subtitleTrack = subtitle ?? internalSubtitle
   const hasTurkish = segments?.some((s) => Boolean(s.turkish)) ?? false

@@ -9,6 +9,7 @@ export interface UseMediaElementOptions {
   autoPlay?: boolean
   initialPosition?: number
   onPositionChange?: (positionSec: number, durationSec: number) => void
+  onTimeUpdate?: (positionSec: number) => void
   onPlayStateChange?: (playing: boolean) => void
   onRateChange?: (rate: number) => void
   onEnded?: () => void
@@ -52,6 +53,7 @@ export function useMediaElement<T extends HTMLMediaElement>(options: UseMediaEle
     }
     const onTimeUpdate = () => {
       setPosition(el.currentTime)
+      optionsRef.current.onTimeUpdate?.(el.currentTime)
       if (el.currentTime - reportedRef.current >= POSITION_REPORT_STEP) reportPosition()
     }
     const onPlay = () => {

@@ -29,12 +29,13 @@ export function AudioPlayer({
   autoPlay,
   initialPosition,
   onPositionChange,
+  onTimeUpdate,
   onPlayStateChange,
   onRateChange,
   onEnded,
 }: AudioPlayerProps) {
   const rootRef = useRef<HTMLDivElement | null>(null)
-  const player = useMediaElement<HTMLAudioElement>({ src, autoPlay, initialPosition, onPositionChange, onPlayStateChange, onRateChange, onEnded })
+  const player = useMediaElement<HTMLAudioElement>({ src, autoPlay, initialPosition, onPositionChange, onTimeUpdate, onPlayStateChange, onRateChange, onEnded })
 
   const cycleRate = () => {
     const index = PLAYBACK_RATES.findIndex((r) => r === player.rate)
