@@ -1,7 +1,7 @@
 {
   "name": "@umituz/web-media",
-  "version": "1.1.0",
-  "description": "Audio and video player components with transcript-synced subtitles for language learning apps",
+  "version": "1.2.0",
+  "description": "Audio, video, transcript and interactive webtoon comic player components for language learning apps",
   "type": "module",
   "sideEffects": [
     "**/*.css"
@@ -12,6 +12,8 @@
   "exports": {
     ".": "./src/index.ts",
     "./player": "./src/player/index.ts",
+    "./transcript": "./src/transcript/index.ts",
+    "./comic": "./src/comic/index.ts",
     "./types": "./src/types/index.ts",
     "./source.css": "./src/styles/source.css",
     "./package.json": "./package.json"
@@ -28,6 +30,8 @@
     "video-player",
     "subtitles",
     "transcript",
+    "comic-reader",
+    "webtoon",
     "language-learning",
     "podcast",
     "react",
