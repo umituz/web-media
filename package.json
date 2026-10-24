@@ -1,6 +1,6 @@
 {
   "name": "@umituz/web-media",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Audio, video, transcript and interactive visual story reader components for language learning apps",
   "type": "module",
   "sideEffects": [
@@ -14,7 +14,6 @@
     "./player": "./src/player/index.ts",
     "./transcript": "./src/transcript/index.ts",
     "./story": "./src/story/index.ts",
-    "./comic": "./src/comic/index.ts",
     "./types": "./src/types/index.ts",
     "./source.css": "./src/styles/source.css",
     "./package.json": "./package.json"
@@ -31,8 +30,10 @@
     "video-player",
     "subtitles",
     "transcript",
-    "comic-reader",
-    "webtoon",
+    "story-reader",
+    "visual-stories",
+    "picture-book",
+    "dialogue-reader",
     "language-learning",
     "podcast",
     "react",

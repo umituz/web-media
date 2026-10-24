@@ -38,7 +38,7 @@ export function StoryReader({
   const [currentLanguage, setCurrentLanguage] = useState<'english' | 'turkish' | 'both'>(language)
   const [showQuiz, setShowQuiz] = useState(false)
 
-  const scenes = episode.scenes || episode.panels || []
+  const scenes = episode.scenes || []
   const totalScenes = scenes.length
   const currentScene: StoryScene | undefined = scenes[currentSceneIndex]
 
@@ -84,7 +84,7 @@ export function StoryReader({
   }
 
   const renderSceneContent = (scene: StoryScene, index: number) => {
-    const effects = scene.effects || scene.sfx || []
+    const effects = scene.effects || []
 
     return (
       <div

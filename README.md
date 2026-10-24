@@ -7,6 +7,8 @@ Audio and video player components with transcript-synced subtitles, built for la
 - **`AudioPlayer`** — podcast-style bar player: play/pause, seek, ±10s skip, playback speed (0.75×–2×), volume, keyboard shortcuts, throttled position reporting.
 - **`VideoPlayer`** — course-style player with custom controls: everything above plus fullscreen and transcript-synced subtitles (KR / EN / TR / off) rendered from timed segments.
 - **`useMediaElement`** — the shared media element hook both players use. Reports position every 5 seconds of playback plus on pause, seek, end, and `pagehide`. Persistence stays in the host app.
+- **`TranscriptPanel`** — synchronized, searchable auto-scrolling transcript panel with timed segments, sentence click-to-seek, and bilingual display.
+- **`StoryReader`** — interactive visual story reader with speech bubbles, vocabulary click-to-lookup, situational effects, and comprehension quizzes. Supports both page-by-page and continuous vertical strip modes.
 
 ## Install
 

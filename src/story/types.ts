@@ -44,8 +44,6 @@ export interface StoryScene {
   bubbles: StoryBubble[]
   effects?: StoryEffect[]
   backgroundSvg?: string
-  /** @deprecated use effects instead */
-  sfx?: StoryEffect[]
 }
 
 export interface StoryQuizQuestion {
@@ -66,8 +64,6 @@ export interface StoryEpisode {
   summary: string
   coverUrl?: string
   scenes: StoryScene[]
-  /** @deprecated alias for scenes */
-  panels?: StoryScene[]
   quiz?: StoryQuizQuestion[]
   levelId?: string
 }
@@ -88,15 +84,3 @@ export interface StoryBook {
 }
 
 export type StoryViewMode = 'page' | 'strip'
-
-// Backward compatibility aliases
-export type BubbleType = StoryBubbleType
-export type ComicWord = StoryWord
-export type ComicBubble = StoryBubble
-export type SfxVariant = StoryEffectVariant
-export type ComicSfx = StoryEffect
-export type ComicPanel = StoryScene
-export type ComicQuizQuestion = StoryQuizQuestion
-export type ComicEpisode = StoryEpisode
-export type ComicStory = StoryBook
-export type ComicViewMode = StoryViewMode
