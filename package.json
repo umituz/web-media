@@ -1,0 +1,57 @@
+{
+  "name": "@umituz/web-media",
+  "version": "0.1.0",
+  "description": "Audio and video player components with transcript-synced subtitles for language learning apps",
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./player": "./src/player/index.ts",
+    "./types": "./src/types/index.ts",
+    "./source.css": "./src/styles/source.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "keywords": [
+    "audio-player",
+    "video-player",
+    "subtitles",
+    "transcript",
+    "language-learning",
+    "podcast",
+    "react",
+    "typescript"
+  ],
+  "author": "umituz",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umituz/web-media.git"
+  },
+  "bugs": {
+    "url": "git+https://github.com/umituz/web-media/issues"
+  },
+  "homepage": "https://github.com/umituz/web-media#readme",
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.32.0",
+    "@types/react": "^18.2.0",
+    "eslint": "^9.32.0",
+    "react": "^18.2.0",
+    "typescript": "^5.0.0",
+    "typescript-eslint": "^8.38.0"
+  }
+}
