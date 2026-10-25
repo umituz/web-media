@@ -13,7 +13,7 @@ export interface StoryBubble {
   speaker?: string
   avatarUrl?: string
   text: string
-  english?: string
+  meaning?: string
   turkish?: string
   romanization?: string
   audioUrl?: string

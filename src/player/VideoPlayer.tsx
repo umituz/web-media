@@ -89,8 +89,15 @@ export function VideoPlayer({
   }
 
   const activeSegment = segments?.find((s) => player.position >= s.start && player.position < s.end)
+  const captionField: Record<Exclude<SubtitleTrack, 'off'>, 'text' | 'meaning' | 'turkish'> = {
+    target: 'text',
+    english: 'meaning',
+    turkish: 'turkish',
+  }
   const captionText =
-    activeSegment && subtitleTrack !== 'off' && activeSegment[subtitleTrack] ? activeSegment[subtitleTrack] : null
+    activeSegment && subtitleTrack !== 'off' && activeSegment[captionField[subtitleTrack]]
+      ? activeSegment[captionField[subtitleTrack]]
+      : null
 
   return (
     <div
