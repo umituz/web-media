@@ -1,5 +1,11 @@
-import type { StoryViewMode } from './types'
+import type { StoryGloss, StoryViewMode } from './types'
 import { PageViewIcon, StripViewIcon } from './icons'
+
+export interface StoryGlossLabels {
+  primary: string
+  secondary: string
+  both: string
+}
 
 export interface StoryToolbarProps {
   currentSceneIndex: number
@@ -10,10 +16,17 @@ export interface StoryToolbarProps {
   onToggleTranslation: () => void
   showRomanization: boolean
   onToggleRomanization: () => void
-  language: 'english' | 'turkish' | 'both'
-  onLanguageChange?: (lang: 'english' | 'turkish' | 'both') => void
+  gloss: StoryGloss
+  onGlossChange?: (gloss: StoryGloss) => void
+  glossLabels?: Partial<StoryGlossLabels>
   title?: string
   className?: string
+}
+
+const DEFAULT_GLOSS_LABELS: StoryGlossLabels = {
+  primary: '1',
+  secondary: '2',
+  both: '1 + 2',
 }
 
 export function StoryToolbar({
@@ -25,11 +38,13 @@ export function StoryToolbar({
   onToggleTranslation,
   showRomanization,
   onToggleRomanization,
-  language,
-  onLanguageChange,
+  gloss,
+  onGlossChange,
+  glossLabels,
   title,
   className = '',
 }: StoryToolbarProps) {
+  const labels = { ...DEFAULT_GLOSS_LABELS, ...glossLabels }
   return (
     <div
       className={`flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 rounded-xl border border-line bg-surface/90 backdrop-blur-md shadow-sm ${className}`}
@@ -48,7 +63,6 @@ export function StoryToolbar({
       </div>
 
       <div className="flex items-center gap-2 text-xs">
-        {/* View Mode Toggle */}
         <div className="flex items-center rounded-lg border border-line p-0.5 bg-surface-2">
           <button
             type="button"
@@ -78,7 +92,6 @@ export function StoryToolbar({
           </button>
         </div>
 
-        {/* Translation Toggle */}
         <div className="flex items-center rounded-lg border border-line bg-surface-2 overflow-hidden">
           <button
             type="button"
@@ -91,20 +104,19 @@ export function StoryToolbar({
           >
             Translation
           </button>
-          {showTranslation && onLanguageChange && (
+          {showTranslation && onGlossChange && (
             <select
-              value={language}
-              onChange={(e) => onLanguageChange(e.target.value as 'english' | 'turkish' | 'both')}
+              value={gloss}
+              onChange={(e) => onGlossChange(e.target.value as StoryGloss)}
               className="bg-transparent border-l border-line text-[11px] font-semibold text-ink px-1.5 py-1 focus:outline-none cursor-pointer"
             >
-              <option value="english">EN</option>
-              <option value="turkish">TR</option>
-              <option value="both">EN + TR</option>
+              <option value="primary">{labels.primary}</option>
+              <option value="secondary">{labels.secondary}</option>
+              <option value="both">{labels.both}</option>
             </select>
           )}
         </div>
 
-        {/* Romanization Toggle */}
         <button
           type="button"
           onClick={onToggleRomanization}
@@ -114,7 +126,7 @@ export function StoryToolbar({
               : 'bg-surface-2 text-ink-3 hover:text-ink'
           }`}
         >
-          Romaja
+          Romanization
         </button>
       </div>
     </div>

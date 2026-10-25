@@ -1,5 +1,7 @@
 export type StoryBubbleType = 'dialogue' | 'thought' | 'narration' | 'shout'
 
+export type StoryGloss = 'primary' | 'secondary' | 'both'
+
 export interface StoryWord {
   word: string
   meaning: string
@@ -14,7 +16,7 @@ export interface StoryBubble {
   avatarUrl?: string
   text: string
   meaning?: string
-  turkish?: string
+  secondaryMeaning?: string
   romanization?: string
   audioUrl?: string
   x?: number

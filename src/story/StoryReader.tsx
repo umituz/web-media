@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react'
-import type { StoryEpisode, StoryScene, StoryViewMode, StoryWord, StoryBubble as StoryBubbleType } from './types'
+import type { StoryEpisode, StoryGloss, StoryScene, StoryViewMode, StoryWord, StoryBubble as StoryBubbleType } from './types'
+import type { StoryGlossLabels } from './StoryToolbar'
 import { StoryBubble } from './StoryBubble'
 import { StoryEffectBadge } from './StoryEffectBadge'
 import { StoryToolbar } from './StoryToolbar'
@@ -11,7 +12,8 @@ export interface StoryReaderProps {
   initialViewMode?: StoryViewMode
   initialShowTranslation?: boolean
   initialShowRomanization?: boolean
-  language?: 'english' | 'turkish' | 'both'
+  gloss?: StoryGloss
+  glossLabels?: Partial<StoryGlossLabels>
   onWordClick?: (word: StoryWord) => void
   onPlaySpeech?: (text: string) => void
   onEpisodeComplete?: (score?: number, total?: number) => void
@@ -24,7 +26,8 @@ export function StoryReader({
   initialViewMode = 'page',
   initialShowTranslation = true,
   initialShowRomanization = true,
-  language = 'english',
+  gloss = 'primary',
+  glossLabels,
   onWordClick,
   onPlaySpeech,
   onEpisodeComplete,
@@ -35,14 +38,13 @@ export function StoryReader({
   const [viewMode, setViewMode] = useState<StoryViewMode>(initialViewMode)
   const [showTranslation, setShowTranslation] = useState(initialShowTranslation)
   const [showRomanization, setShowRomanization] = useState(initialShowRomanization)
-  const [currentLanguage, setCurrentLanguage] = useState<'english' | 'turkish' | 'both'>(language)
+  const [currentGloss, setCurrentGloss] = useState<StoryGloss>(gloss)
   const [showQuiz, setShowQuiz] = useState(false)
 
   const scenes = episode.scenes || []
   const totalScenes = scenes.length
   const currentScene: StoryScene | undefined = scenes[currentSceneIndex]
 
-  // Keyboard navigation for page mode
   useEffect(() => {
     if (viewMode !== 'page') return
 
@@ -91,7 +93,6 @@ export function StoryReader({
         key={scene.id || index}
         className="relative w-full overflow-hidden rounded-2xl border border-line bg-slate-900 shadow-xl"
       >
-        {/* Scene Background / Illustration */}
         <div className="relative min-h-[380px] sm:min-h-[460px] md:min-h-[520px] w-full flex items-center justify-center p-4 sm:p-6 overflow-hidden">
           {scene.imageUrl ? (
             <img
@@ -108,7 +109,6 @@ export function StoryReader({
             <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-800 to-indigo-950/80" />
           )}
 
-          {/* Top Narration Banner */}
           {scene.narration && (
             <div className="absolute top-4 inset-x-4 sm:inset-x-8 z-10 mx-auto max-w-xl">
               <div className="px-4 py-2 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 text-white text-xs sm:text-sm font-medium text-center shadow-lg">
@@ -117,7 +117,6 @@ export function StoryReader({
             </div>
           )}
 
-          {/* Effects (SFX) Floating Badges */}
           {effects.length > 0 && (
             <div className="absolute top-16 right-4 sm:right-8 z-20 flex flex-col gap-2 items-end">
               {effects.map((fx) => (
@@ -126,7 +125,6 @@ export function StoryReader({
             </div>
           )}
 
-          {/* Speech & Thought Bubbles Container */}
           <div className="relative z-20 w-full max-w-2xl flex flex-col gap-4 items-center justify-center pt-10 pb-6">
             {scene.bubbles.map((bubble) => (
               <StoryBubble
@@ -134,7 +132,7 @@ export function StoryReader({
                 bubble={bubble}
                 showTranslation={showTranslation}
                 showRomanization={showRomanization}
-                language={currentLanguage}
+                gloss={currentGloss}
                 onWordClick={onWordClick}
                 onPlayAudio={onPlaySpeech}
                 extraActions={extraBubbleActions}
@@ -148,7 +146,6 @@ export function StoryReader({
 
   return (
     <div className={`space-y-4 max-w-3xl mx-auto ${className}`}>
-      {/* Top Interactive Toolbar */}
       <StoryToolbar
         currentSceneIndex={currentSceneIndex}
         totalScenes={totalScenes}
@@ -158,12 +155,12 @@ export function StoryReader({
         onToggleTranslation={() => setShowTranslation((prev) => !prev)}
         showRomanization={showRomanization}
         onToggleRomanization={() => setShowRomanization((prev) => !prev)}
-        language={currentLanguage}
-        onLanguageChange={setCurrentLanguage}
+        gloss={currentGloss}
+        onGlossChange={setCurrentGloss}
+        glossLabels={glossLabels}
         title={episode.title}
       />
 
-      {/* Main Content Area */}
       {viewMode === 'page' ? (
         <div className="space-y-4">
           {showQuiz && episode.quiz ? (
@@ -176,7 +173,6 @@ export function StoryReader({
             renderSceneContent(currentScene, currentSceneIndex)
           ) : null}
 
-          {/* Page Navigation Controls */}
           <div className="flex items-center justify-between gap-3 pt-2">
             <button
               type="button"
@@ -188,7 +184,6 @@ export function StoryReader({
               <span>Previous</span>
             </button>
 
-            {/* Dots Indicator */}
             <div className="flex items-center gap-1.5 overflow-x-auto max-w-[200px] py-1">
               {scenes.map((_, idx) => (
                 <button
@@ -235,7 +230,6 @@ export function StoryReader({
           </div>
         </div>
       ) : (
-        /* Vertical Continuous Strip Mode */
         <div className="space-y-6">
           {scenes.map((scene, idx) => renderSceneContent(scene, idx))}
 

@@ -1,12 +1,12 @@
 import { useState, type ReactNode } from 'react'
-import type { StoryBubble as StoryBubbleType, StoryWord } from './types'
+import type { StoryBubble as StoryBubbleType, StoryGloss, StoryWord } from './types'
 import { VolumeIcon } from './icons'
 
 export interface StoryBubbleProps {
   bubble: StoryBubbleType
   showTranslation?: boolean
   showRomanization?: boolean
-  language?: 'english' | 'turkish' | 'both'
+  gloss?: StoryGloss
   onWordClick?: (word: StoryWord) => void
   onPlayAudio?: (text: string) => void
   className?: string
@@ -17,7 +17,7 @@ export function StoryBubble({
   bubble,
   showTranslation = true,
   showRomanization = true,
-  language = 'english',
+  gloss = 'primary',
   onWordClick,
   onPlayAudio,
   className = '',
@@ -34,7 +34,7 @@ export function StoryBubble({
     }
   }
 
-  const renderKoreanText = () => {
+  const renderTargetText = () => {
     if (!bubble.vocabulary || bubble.vocabulary.length === 0) {
       return <span>{bubble.text}</span>
     }
@@ -44,7 +44,6 @@ export function StoryBubble({
       vocabMap.set(v.word, v)
     }
 
-    // Split text into tokens (keeping whitespace and punctuation)
     const tokens = bubble.text.split(/(\s+|[.,!?'"~]+)/)
     return tokens.map((token, idx) => {
       const clean = token.trim()
@@ -85,17 +84,17 @@ export function StoryBubble({
 
   const renderTranslation = () => {
     if (!showTranslation) return null
-    if (language === 'english' && bubble.meaning) {
+    if (gloss === 'primary' && bubble.meaning) {
       return <p className="text-xs text-slate-600 mt-1 italic">{bubble.meaning}</p>
     }
-    if (language === 'turkish' && (bubble.turkish || bubble.meaning)) {
-      return <p className="text-xs text-slate-600 mt-1 italic">{bubble.turkish || bubble.meaning}</p>
+    if (gloss === 'secondary' && (bubble.secondaryMeaning || bubble.meaning)) {
+      return <p className="text-xs text-slate-600 mt-1 italic">{bubble.secondaryMeaning || bubble.meaning}</p>
     }
-    if (language === 'both') {
+    if (gloss === 'both') {
       return (
         <div className="mt-1 space-y-0.5 text-xs text-slate-600 italic">
           {bubble.meaning && <p className="text-slate-700">{bubble.meaning}</p>}
-          {bubble.turkish && <p className="text-slate-500 text-[11px]">{bubble.turkish}</p>}
+          {bubble.secondaryMeaning && <p className="text-slate-500 text-[11px]">{bubble.secondaryMeaning}</p>}
         </div>
       )
     }
@@ -104,7 +103,6 @@ export function StoryBubble({
 
   return (
     <div className={`relative max-w-sm sm:max-w-md p-3.5 transition-all ${getBubbleShapeClasses()} ${className}`}>
-      {/* Speaker header */}
       {bubble.speaker && (
         <div className="flex items-center gap-1.5 mb-1.5 pb-1 border-b border-black/5">
           {bubble.avatarUrl ? (
@@ -116,20 +114,16 @@ export function StoryBubble({
         </div>
       )}
 
-      {/* Main Korean text with clickable words */}
       <div className="kr-text text-base sm:text-lg font-medium leading-relaxed tracking-wide text-slate-900">
-        {renderKoreanText()}
+        {renderTargetText()}
       </div>
 
-      {/* Romanization */}
       {showRomanization && bubble.romanization && (
         <p className="text-xs font-mono text-slate-500 mt-1 tracking-tight">{bubble.romanization}</p>
       )}
 
-      {/* Translations */}
       {renderTranslation()}
 
-      {/* Audio & Extra Actions */}
       <div className="flex items-center justify-end gap-1.5 mt-2 pt-1 border-t border-black/5">
         {extraActions && extraActions(bubble)}
         {onPlayAudio && (

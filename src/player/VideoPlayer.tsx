@@ -8,14 +8,15 @@ export interface VideoPlayerProps extends MediaPlayerProps {
   segments?: TranscriptSegment[]
   subtitle?: SubtitleTrack
   onSubtitleChange?: (track: SubtitleTrack) => void
+  subtitleLabels?: Partial<Record<SubtitleTrack, string>>
   className?: string
 }
 
-const SUBTITLE_LABELS: Record<SubtitleTrack, string> = {
+const DEFAULT_SUBTITLE_LABELS: Record<SubtitleTrack, string> = {
   target: 'ORIG',
-  english: 'EN',
-  turkish: 'TR',
-  off: 'CC',
+  meaning: 'SUB 1',
+  secondary: 'SUB 2',
+  off: 'OFF',
 }
 
 export function VideoPlayer({
@@ -23,6 +24,7 @@ export function VideoPlayer({
   segments,
   subtitle,
   onSubtitleChange,
+  subtitleLabels,
   className,
   autoPlay,
   initialPosition,
@@ -38,7 +40,8 @@ export function VideoPlayer({
   const player = useMediaElement<HTMLVideoElement>({ src, autoPlay, initialPosition, onPositionChange, onTimeUpdate, onPlayStateChange, onRateChange, onEnded })
 
   const subtitleTrack = subtitle ?? internalSubtitle
-  const hasTurkish = segments?.some((s) => Boolean(s.turkish)) ?? false
+  const labels = { ...DEFAULT_SUBTITLE_LABELS, ...subtitleLabels }
+  const hasSecondary = segments?.some((s) => Boolean(s.secondaryMeaning)) ?? false
 
   useEffect(() => {
     const onFullscreenChange = () => setFullscreen(document.fullscreenElement === containerRef.current)
@@ -47,7 +50,9 @@ export function VideoPlayer({
   }, [])
 
   const cycleSubtitle = () => {
-    const order: SubtitleTrack[] = hasTurkish ? ['target', 'english', 'turkish', 'off'] : ['target', 'english', 'off']
+    const order: SubtitleTrack[] = hasSecondary
+      ? ['target', 'meaning', 'secondary', 'off']
+      : ['target', 'meaning', 'off']
     const index = order.indexOf(subtitleTrack)
     const next = order[(index + 1) % order.length]
     setInternalSubtitle(next)
@@ -89,10 +94,10 @@ export function VideoPlayer({
   }
 
   const activeSegment = segments?.find((s) => player.position >= s.start && player.position < s.end)
-  const captionField: Record<Exclude<SubtitleTrack, 'off'>, 'text' | 'meaning' | 'turkish'> = {
+  const captionField: Record<Exclude<SubtitleTrack, 'off'>, 'text' | 'meaning' | 'secondaryMeaning'> = {
     target: 'text',
-    english: 'meaning',
-    turkish: 'turkish',
+    meaning: 'meaning',
+    secondary: 'secondaryMeaning',
   }
   const captionText =
     activeSegment && subtitleTrack !== 'off' && activeSegment[captionField[subtitleTrack]]
@@ -171,7 +176,7 @@ export function VideoPlayer({
               subtitleTrack === 'off' ? 'border-white/30 opacity-60' : 'border-white/70'
             }`}
           >
-            {SUBTITLE_LABELS[subtitleTrack]}
+            {labels[subtitleTrack]}
           </button>
         )}
         <div className="flex items-center gap-1.5">

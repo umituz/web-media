@@ -3,10 +3,10 @@ export interface TranscriptSegment {
   end: number
   text: string
   meaning: string
-  turkish?: string
+  secondaryMeaning?: string
 }
 
-export type SubtitleTrack = 'target' | 'english' | 'turkish' | 'off'
+export type SubtitleTrack = 'target' | 'meaning' | 'secondary' | 'off'
 
 export interface MediaPlayerProps {
   src: string
