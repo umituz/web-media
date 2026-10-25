@@ -29,14 +29,14 @@ export function StoryBubble({
     e.stopPropagation()
     if (onPlayAudio) {
       setIsPlaying(true)
-      onPlayAudio(bubble.korean)
+      onPlayAudio(bubble.text)
       setTimeout(() => setIsPlaying(false), 1500)
     }
   }
 
   const renderKoreanText = () => {
     if (!bubble.vocabulary || bubble.vocabulary.length === 0) {
-      return <span>{bubble.korean}</span>
+      return <span>{bubble.text}</span>
     }
 
     const vocabMap = new Map<string, StoryWord>()
@@ -45,7 +45,7 @@ export function StoryBubble({
     }
 
     // Split text into tokens (keeping whitespace and punctuation)
-    const tokens = bubble.korean.split(/(\s+|[.,!?'"~]+)/)
+    const tokens = bubble.text.split(/(\s+|[.,!?'"~]+)/)
     return tokens.map((token, idx) => {
       const clean = token.trim()
       const match = vocabMap.get(clean)
@@ -85,16 +85,16 @@ export function StoryBubble({
 
   const renderTranslation = () => {
     if (!showTranslation) return null
-    if (language === 'english' && bubble.english) {
-      return <p className="text-xs text-slate-600 mt-1 italic">{bubble.english}</p>
+    if (language === 'english' && bubble.meaning) {
+      return <p className="text-xs text-slate-600 mt-1 italic">{bubble.meaning}</p>
     }
-    if (language === 'turkish' && (bubble.turkish || bubble.english)) {
-      return <p className="text-xs text-slate-600 mt-1 italic">{bubble.turkish || bubble.english}</p>
+    if (language === 'turkish' && (bubble.turkish || bubble.meaning)) {
+      return <p className="text-xs text-slate-600 mt-1 italic">{bubble.turkish || bubble.meaning}</p>
     }
     if (language === 'both') {
       return (
         <div className="mt-1 space-y-0.5 text-xs text-slate-600 italic">
-          {bubble.english && <p className="text-slate-700">{bubble.english}</p>}
+          {bubble.meaning && <p className="text-slate-700">{bubble.meaning}</p>}
           {bubble.turkish && <p className="text-slate-500 text-[11px]">{bubble.turkish}</p>}
         </div>
       )

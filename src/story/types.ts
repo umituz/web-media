@@ -12,7 +12,7 @@ export interface StoryBubble {
   type: StoryBubbleType
   speaker?: string
   avatarUrl?: string
-  korean: string
+  text: string
   english?: string
   turkish?: string
   romanization?: string
@@ -27,7 +27,7 @@ export type StoryEffectVariant = 'impact' | 'emotion' | 'motion' | 'ambient'
 
 export interface StoryEffect {
   id: string
-  korean: string
+  text: string
   romanization: string
   meaning: string
   variant?: StoryEffectVariant
@@ -49,7 +49,7 @@ export interface StoryScene {
 export interface StoryQuizQuestion {
   id: string
   prompt: string
-  koreanPrompt?: string
+  promptText?: string
   options: string[]
   correctIndex: number
   explanation?: string
@@ -60,7 +60,7 @@ export interface StoryEpisode {
   storyId: string
   episodeNumber: number
   title: string
-  koreanTitle: string
+  nativeTitle: string
   summary: string
   coverUrl?: string
   scenes: StoryScene[]
@@ -71,7 +71,7 @@ export interface StoryEpisode {
 export interface StoryBook {
   id: string
   title: string
-  koreanTitle: string
+  nativeTitle: string
   description: string
   coverUrl: string
   category: string

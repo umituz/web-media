@@ -86,10 +86,10 @@ export function TranscriptPanel({
                       active ? 'font-semibold text-primary-strong' : 'text-ink'
                     }`}
                   >
-                    {segment.korean}
+                    {segment.text}
                   </span>
-                  {showSecondary && segment.english && (
-                    <span className="mt-1 block text-sm italic text-ink-3">{segment.english}</span>
+                  {showSecondary && segment.meaning && (
+                    <span className="mt-1 block text-sm italic text-ink-3">{segment.meaning}</span>
                   )}
                   {showTertiary && segment.turkish && (
                     <span className="mt-0.5 block text-sm text-ink-3">{segment.turkish}</span>

@@ -12,7 +12,7 @@ export interface VideoPlayerProps extends MediaPlayerProps {
 }
 
 const SUBTITLE_LABELS: Record<SubtitleTrack, string> = {
-  korean: 'KR',
+  target: 'ORIG',
   english: 'EN',
   turkish: 'TR',
   off: 'CC',
@@ -33,7 +33,7 @@ export function VideoPlayer({
   onEnded,
 }: VideoPlayerProps) {
   const containerRef = useRef<HTMLDivElement | null>(null)
-  const [internalSubtitle, setInternalSubtitle] = useState<SubtitleTrack>('korean')
+  const [internalSubtitle, setInternalSubtitle] = useState<SubtitleTrack>('target')
   const [fullscreen, setFullscreen] = useState(false)
   const player = useMediaElement<HTMLVideoElement>({ src, autoPlay, initialPosition, onPositionChange, onTimeUpdate, onPlayStateChange, onRateChange, onEnded })
 
@@ -47,7 +47,7 @@ export function VideoPlayer({
   }, [])
 
   const cycleSubtitle = () => {
-    const order: SubtitleTrack[] = hasTurkish ? ['korean', 'english', 'turkish', 'off'] : ['korean', 'english', 'off']
+    const order: SubtitleTrack[] = hasTurkish ? ['target', 'english', 'turkish', 'off'] : ['target', 'english', 'off']
     const index = order.indexOf(subtitleTrack)
     const next = order[(index + 1) % order.length]
     setInternalSubtitle(next)

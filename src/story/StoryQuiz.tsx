@@ -55,9 +55,9 @@ export function StoryQuiz({
               <p className="text-sm font-semibold text-ink mb-1">
                 {qIdx + 1}. {q.prompt}
               </p>
-              {q.koreanPrompt && (
+              {q.promptText && (
                 <p className="kr-text text-sm font-medium text-primary-strong mb-3">
-                  {q.koreanPrompt}
+                  {q.promptText}
                 </p>
               )}
 

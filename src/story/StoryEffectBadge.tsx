@@ -30,10 +30,10 @@ export function StoryEffectBadge({ effect, className = '' }: StoryEffectBadgePro
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         onClick={() => setShowTooltip((prev) => !prev)}
-        aria-label={`Sound Effect: ${effect.korean} - ${effect.meaning}`}
+        aria-label={`Sound Effect: ${effect.text} - ${effect.meaning}`}
         className={`px-2 py-0.5 rounded-full text-xs font-black tracking-wider shadow-sm uppercase transform hover:scale-105 active:scale-95 transition-all cursor-help border border-white/20 select-none ${getVariantStyles()}`}
       >
-        {effect.korean}
+        {effect.text}
       </button>
 
       {showTooltip && (
