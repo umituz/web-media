@@ -1,6 +1,6 @@
 {
   "name": "@umituz/web-media",
-  "version": "1.4.3",
+  "version": "2.0.0",
   "description": "Audio, video, transcript and interactive visual story reader components for language learning apps",
   "type": "module",
   "sideEffects": [
