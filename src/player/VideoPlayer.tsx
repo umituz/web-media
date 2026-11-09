@@ -54,14 +54,14 @@ export function VideoPlayer({
       ? ['target', 'meaning', 'secondary', 'off']
       : ['target', 'meaning', 'off']
     const index = order.indexOf(subtitleTrack)
-    const next = order[(index + 1) % order.length]
+    const next = order[(index + 1) % order.length] ?? 'target'
     setInternalSubtitle(next)
     onSubtitleChange?.(next)
   }
 
   const cycleRate = () => {
     const index = PLAYBACK_RATES.findIndex((r) => r === player.rate)
-    const next = PLAYBACK_RATES[(index + 1) % PLAYBACK_RATES.length]
+    const next = PLAYBACK_RATES[(index + 1) % PLAYBACK_RATES.length] ?? 1
     player.setPlaybackRate(next)
   }
 

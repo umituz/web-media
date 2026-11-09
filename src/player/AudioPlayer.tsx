@@ -39,7 +39,7 @@ export function AudioPlayer({
 
   const cycleRate = () => {
     const index = PLAYBACK_RATES.findIndex((r) => r === player.rate)
-    const next = PLAYBACK_RATES[(index + 1) % PLAYBACK_RATES.length]
+    const next = PLAYBACK_RATES[(index + 1) % PLAYBACK_RATES.length] ?? 1
     player.setPlaybackRate(next)
   }
 
