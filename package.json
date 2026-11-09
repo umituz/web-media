@@ -23,7 +23,8 @@
     "README.md"
   ],
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "version:minor": "npm version minor -m 'chore: release v%s'"
   },
   "keywords": [
     "audio-player",
