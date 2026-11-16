@@ -1,6 +1,6 @@
 {
   "name": "@umituz/web-media",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Audio, video, transcript and interactive visual story reader components for language learning apps",
   "type": "module",
   "sideEffects": [
@@ -24,6 +24,7 @@
   ],
   "scripts": {
     "lint": "eslint .",
+    "test": "vitest run",
     "version:minor": "npm version minor -m 'chore: release v%s'"
   },
   "keywords": [
@@ -59,6 +60,7 @@
     "eslint": "^9.32.0",
     "react": "^18.2.0",
     "typescript": "^5.0.0",
-    "typescript-eslint": "^8.38.0"
+    "typescript-eslint": "^8.38.0",
+    "vitest": "^3.2.4"
   }
 }
