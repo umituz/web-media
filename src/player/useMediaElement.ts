@@ -29,7 +29,9 @@ export function useMediaElement<T extends HTMLMediaElement>(options: UseMediaEle
   const initialAppliedRef = useRef(false)
   const reportedRef = useRef(0)
   const optionsRef = useRef(options)
-  optionsRef.current = options
+  useEffect(() => {
+    optionsRef.current = options
+  })
 
   const reportPosition = useCallback(() => {
     const el = ref.current

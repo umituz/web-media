@@ -98,7 +98,9 @@ export function useSpeechRecognition(
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null)
   const keepListeningRef = useRef(false)
   const optionsRef = useRef<SpeechRecognitionOptions>(resolvedOptions)
-  optionsRef.current = resolvedOptions
+  useEffect(() => {
+    optionsRef.current = resolvedOptions
+  })
 
   useEffect(
     () => () => {
