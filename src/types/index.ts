@@ -18,3 +18,40 @@ export interface MediaPlayerProps {
   onRateChange?: (rate: number) => void
   onEnded?: () => void
 }
+
+export interface PlaylistItem {
+  id: string
+  title: string
+  subtitle?: string
+  artist?: string
+  src: string
+  durationSec?: number
+  coverUrl?: string
+}
+
+export interface MediaPlaylistProps {
+  tracks: PlaylistItem[]
+  initialTrackIndex?: number
+  onTrackSelect?: (track: PlaylistItem, index: number) => void
+  onTrackEnd?: (track: PlaylistItem, index: number) => void
+  className?: string
+  autoPlay?: boolean
+}
+
+export interface AudioVisualizerProps {
+  stream?: MediaStream | null
+  active?: boolean
+  barCount?: number
+  barColor?: string
+  height?: number
+  className?: string
+}
+
+export interface AudioRecorderPanelProps {
+  onSave?: (blob: Blob) => void | Promise<void>
+  onDiscard?: () => void
+  maxDurationSec?: number
+  title?: string
+  subtitle?: string
+  className?: string
+}
