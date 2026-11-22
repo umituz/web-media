@@ -1,6 +1,6 @@
 {
   "name": "@umituz/web-media",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "Audio, video, transcript and interactive visual story reader components for language learning apps",
   "type": "module",
   "sideEffects": [
@@ -25,6 +25,7 @@
     "README.md"
   ],
   "scripts": {
+    "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
     "version:minor": "npm version minor -m 'chore: release v%s'"

@@ -55,3 +55,13 @@ export interface AudioRecorderPanelProps {
   subtitle?: string
   className?: string
 }
+
+export interface ScreenRecorderPanelProps {
+  onSave?: (blob: Blob) => void | Promise<void>
+  onDiscard?: () => void
+  maxDurationSec?: number
+  title?: string
+  subtitle?: string
+  className?: string
+  downloadFilename?: string
+}
