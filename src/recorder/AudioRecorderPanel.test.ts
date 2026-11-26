@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { createElement } from 'react'
 import { renderToString } from 'react-dom/server'
-import { AudioVisualizer } from './AudioVisualizer'
+import { AudioVisualizer, parseCssVarColor } from './AudioVisualizer'
 import { AudioRecorderPanel } from './AudioRecorderPanel'
 
 describe('AudioVisualizer', () => {
@@ -10,6 +10,24 @@ describe('AudioVisualizer', () => {
     expect(html).toContain('<canvas')
     expect(html).toContain('um-audio-visualizer')
     expect(html).toContain('height="40"')
+  })
+})
+
+describe('parseCssVarColor', () => {
+  it('splits a var() color with fallback into name and fallback', () => {
+    expect(parseCssVarColor('var(--color-primary, #33406b)')).toEqual({
+      name: '--color-primary',
+      fallback: '#33406b',
+    })
+  })
+
+  it('handles a var() color without fallback', () => {
+    expect(parseCssVarColor('var(--bar)')).toEqual({ name: '--bar', fallback: '' })
+  })
+
+  it('passes plain colors through as the fallback with no variable name', () => {
+    expect(parseCssVarColor('#10b981')).toEqual({ name: null, fallback: '#10b981' })
+    expect(parseCssVarColor('rgb(1, 2, 3)')).toEqual({ name: null, fallback: 'rgb(1, 2, 3)' })
   })
 })
 

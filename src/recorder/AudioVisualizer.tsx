@@ -1,6 +1,14 @@
 import { useEffect, useRef } from 'react'
 import type { AudioVisualizerProps } from '../types'
 
+export function parseCssVarColor(color: string): { name: string | null; fallback: string } {
+  if (!color.startsWith('var(') || !color.endsWith(')')) return { name: null, fallback: color }
+  const inner = color.slice(4, -1)
+  const commaAt = inner.indexOf(',')
+  if (commaAt === -1) return { name: inner.trim(), fallback: '' }
+  return { name: inner.slice(0, commaAt).trim(), fallback: inner.slice(commaAt + 1).trim() }
+}
+
 export function AudioVisualizer({
   stream = null,
   active = false,
@@ -38,6 +46,12 @@ export function AudioVisualizer({
 
     const dataArray = analyser ? new Uint8Array(analyser.frequencyBinCount) : null
 
+    const { name: colorVar, fallback: colorFallback } = parseCssVarColor(barColor)
+    const resolvedColor =
+      colorVar === null
+        ? colorFallback
+        : getComputedStyle(canvas).getPropertyValue(colorVar).trim() || colorFallback || '#94a3b8'
+
     const draw = (time: number) => {
       const width = canvas.width
       const h = canvas.height
@@ -51,7 +65,7 @@ export function AudioVisualizer({
         analyser.getByteFrequencyData(dataArray)
       }
 
-      ctx.fillStyle = barColor
+      ctx.fillStyle = resolvedColor
 
       for (let i = 0; i < totalBars; i++) {
         let barHeight = 4
