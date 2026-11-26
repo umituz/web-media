@@ -13,6 +13,7 @@ export function pickAudioMimeType(): string {
 export interface AudioRecorderState {
   status: AudioRecorderStatus
   blob: Blob | null
+  stream: MediaStream | null
   start: () => Promise<boolean>
   stop: () => void
   reset: () => void
@@ -21,6 +22,7 @@ export interface AudioRecorderState {
 export function useAudioRecorder(): AudioRecorderState {
   const [status, setStatus] = useState<AudioRecorderStatus>('idle')
   const [blob, setBlob] = useState<Blob | null>(null)
+  const [stream, setStream] = useState<MediaStream | null>(null)
   const mediaRef = useRef<MediaRecorder | null>(null)
   const startingRef = useRef(false)
 
@@ -31,6 +33,7 @@ export function useAudioRecorder(): AudioRecorderState {
     recorder.onstop = null
     if (recorder.state !== 'inactive') recorder.stop()
     recorder.stream.getTracks().forEach((track) => track.stop())
+    setStream(null)
   }, [])
 
   const start = useCallback(async (): Promise<boolean> => {
@@ -54,6 +57,7 @@ export function useAudioRecorder(): AudioRecorderState {
       recorder.start()
       mediaRef.current = recorder
       setBlob(null)
+      setStream(stream)
       setStatus('recording')
       return true
     } catch {
@@ -68,6 +72,7 @@ export function useAudioRecorder(): AudioRecorderState {
     const recorder = mediaRef.current
     if (!recorder) return
     mediaRef.current = null
+    setStream(null)
     if (recorder.state !== 'inactive') recorder.stop()
   }, [])
 
@@ -79,5 +84,5 @@ export function useAudioRecorder(): AudioRecorderState {
 
   useEffect(() => () => releaseStream(), [releaseStream])
 
-  return { status, blob, start, stop, reset }
+  return { status, blob, stream, start, stop, reset }
 }
