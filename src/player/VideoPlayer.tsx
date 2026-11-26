@@ -1,8 +1,12 @@
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState, type KeyboardEvent } from 'react'
 import type { MediaPlayerProps, SubtitleTrack, TranscriptSegment } from '../types'
 import { PLAYBACK_RATES, useMediaElement } from './useMediaElement'
 import { formatTime } from './AudioPlayer'
 import { Back10Icon, Forward10Icon, MaximizeIcon, MinimizeIcon, PauseIcon, PlayIcon, VolumeIcon, VolumeXIcon } from './icons'
+
+export interface VideoPlayerHandle {
+  seek: (sec: number) => void
+}
 
 export interface VideoPlayerProps extends MediaPlayerProps {
   segments?: TranscriptSegment[]
@@ -19,25 +23,30 @@ const DEFAULT_SUBTITLE_LABELS: Record<SubtitleTrack, string> = {
   off: 'OFF',
 }
 
-export function VideoPlayer({
-  src,
-  segments,
-  subtitle,
-  onSubtitleChange,
-  subtitleLabels,
-  className,
-  autoPlay,
-  initialPosition,
-  onPositionChange,
-  onTimeUpdate,
-  onPlayStateChange,
-  onRateChange,
-  onEnded,
-}: VideoPlayerProps) {
+export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(function VideoPlayer(
+  {
+    src,
+    segments,
+    subtitle,
+    onSubtitleChange,
+    subtitleLabels,
+    className,
+    autoPlay,
+    initialPosition,
+    onPositionChange,
+    onTimeUpdate,
+    onPlayStateChange,
+    onRateChange,
+    onEnded,
+  },
+  ref,
+) {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [internalSubtitle, setInternalSubtitle] = useState<SubtitleTrack>('target')
   const [fullscreen, setFullscreen] = useState(false)
   const player = useMediaElement<HTMLVideoElement>({ src, autoPlay, initialPosition, onPositionChange, onTimeUpdate, onPlayStateChange, onRateChange, onEnded })
+
+  useImperativeHandle(ref, () => ({ seek: player.seek }), [player.seek])
 
   const subtitleTrack = subtitle ?? internalSubtitle
   const labels = { ...DEFAULT_SUBTITLE_LABELS, ...subtitleLabels }
@@ -200,4 +209,4 @@ export function VideoPlayer({
       </div>
     </div>
   )
-}
+})
