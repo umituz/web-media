@@ -9,6 +9,7 @@ export interface TranscriptPanelProps {
   emptyMessage?: string
   hintMessage?: string
   activeAriaLabel?: string
+  activeBadgeLabel?: string
   className?: string
   showSecondary?: boolean
   showTertiary?: boolean
@@ -22,6 +23,7 @@ export function TranscriptPanel({
   emptyMessage = 'No transcript available for this recording.',
   hintMessage = 'Click any line to jump to that moment in the audio.',
   activeAriaLabel = 'Currently playing segment',
+  activeBadgeLabel,
   className = '',
   showSecondary = true,
   showTertiary = true,
@@ -30,13 +32,13 @@ export function TranscriptPanel({
   const activeRef = useRef<HTMLLIElement | null>(null)
 
   const activeIndex = useMemo(() => {
-    let found = -1
     for (let index = 0; index < segments.length; index++) {
       const seg = segments[index]
-      if (seg && position >= seg.start) found = index
-      else break
+      if (seg && position >= seg.start && position <= seg.end) return index
     }
-    return found
+    const last = segments[segments.length - 1]
+    if (last && position > last.end) return segments.length - 1
+    return -1
   }, [segments, position])
 
   useEffect(() => {
@@ -80,6 +82,11 @@ export function TranscriptPanel({
                 <span className="num-display w-11 shrink-0 pt-1 text-xs text-ink-3 font-mono">
                   {formatTime(segment.start)}
                 </span>
+                {active && activeBadgeLabel ? (
+                  <span className="shrink-0 self-center rounded-full bg-primary-tint px-2 py-0.5 text-3xs font-bold uppercase text-primary-strong">
+                    {activeBadgeLabel}
+                  </span>
+                ) : null}
                 <span className="min-w-0 flex-1">
                   <span
                     className={`kr-text block text-[1.02rem] leading-relaxed ${
